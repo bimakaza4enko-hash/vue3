@@ -200,3 +200,38 @@ new Vue({
                 this.saveTasks();
             }
         },
+                saveTask() {
+            if (!this.modal.form.title) {
+                alert('Введите название');
+                return;
+            }
+            if (!this.modal.form.deadline) {
+                alert('Выберите дедлайн');
+                return;
+            }
+            
+            if (this.modal.mode === 'add') {
+                this.tasks.push({
+                    id: this.generateId(),
+                    title: this.modal.form.title,
+                    desc: this.modal.form.desc,
+                    deadline: this.modal.form.deadline,
+                    createdAt: new Date().toISOString(),
+                    editedAt: null,
+                    completedAt: null,
+                    column: 'planned',
+                    returnReason: null
+                });
+            } else {
+                const task = this.tasks.find(t => t.id === this.modal.editId);
+                if (task) {
+                    task.title = this.modal.form.title;
+                    task.desc = this.modal.form.desc;
+                    task.deadline = this.modal.form.deadline;
+                    task.editedAt = new Date().toISOString();
+                }
+            }
+            
+            this.modal.show = false;
+            this.saveTasks();
+        },
