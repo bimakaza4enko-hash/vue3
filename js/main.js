@@ -266,4 +266,13 @@ new Vue({
                 alert('Укажите причину');
                 return;
             }
-            
+                        const task = this.tasks.find(t => t.id === this.returnModal.taskId);
+            if (task) {
+                task.column = 'in-progress';
+                task.returnReason = this.returnModal.reason;
+                this.saveTasks();
+            }
+            this.returnModal.show = false;
+        }
+    }
+});
