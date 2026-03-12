@@ -181,3 +181,22 @@ new Vue({
                 }
             };
         },
+                editTask(task) {
+            this.modal = {
+                show: true,
+                title: 'Редактировать',
+                mode: 'edit',
+                editId: task.id,
+                form: {
+                    title: task.title,
+                    desc: task.desc || '',
+                    deadline: task.deadline.slice(0, 16)
+                }
+            };
+        },
+        deleteTask(taskId) {
+            if (confirm('Удалить задачу?')) {
+                this.tasks = this.tasks.filter(t => t.id !== taskId);
+                this.saveTasks();
+            }
+        },
