@@ -157,3 +157,27 @@ new Vue({
                 ];
             }
         },
+                saveTasks() {
+            localStorage.setItem('kanban-tasks', JSON.stringify(this.tasks));
+        },
+        
+        generateId() {
+            return Date.now() + Math.random();
+        },
+        showAddModal() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(18, 0);
+            
+            this.modal = {
+                show: true,
+                title: 'Новая задача',
+                mode: 'add',
+                editId: null,
+                form: {
+                    title: '',
+                    desc: '',
+                    deadline: tomorrow.toISOString().slice(0, 16)
+                }
+            };
+        },
