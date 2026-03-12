@@ -235,3 +235,35 @@ new Vue({
             this.modal.show = false;
             this.saveTasks();
         },
+                moveTask(taskId, fromColumn) {
+            const task = this.tasks.find(t => t.id === taskId);
+            if (!task) return;
+            
+            const nextColumn = {
+                'planned': 'in-progress',
+                'in-progress': 'testing',
+                'testing': 'completed'
+            }[fromColumn];
+            if (nextColumn) {
+                task.column = nextColumn;
+                if (nextColumn === 'completed') {
+                    const deadline = new Date(task.deadline);
+                    const now = new Date();
+                    task.completedAt = now.toISOString();
+                }
+                this.saveTasks();
+            }
+        },
+        returnTask(taskId) {
+            this.returnModal = {
+                show: true,
+                taskId: taskId,
+                reason: ''
+            };
+        },
+        confirmReturn() {
+            if (!this.returnModal.reason.trim()) {
+                alert('Укажите причину');
+                return;
+            }
+            
