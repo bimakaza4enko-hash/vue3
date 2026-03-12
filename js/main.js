@@ -133,3 +133,27 @@ new Vue({
                 day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
             });
         },
+                loadTasks() {
+            const saved = localStorage.getItem('kanban-tasks');
+            if (saved) {
+                this.tasks = JSON.parse(saved);
+            } else {
+                const now = new Date();
+                const tomorrow = new Date(now);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                
+                this.tasks = [
+                    {
+                        id: 1,
+                        title: 'Пример задачи',
+                        desc: 'Описание задачи',
+                        deadline: tomorrow.toISOString(),
+                        createdAt: now.toISOString(),
+                        editedAt: null,
+                        completedAt: null,
+                        column: 'planned',
+                        returnReason: null
+                    }
+                ];
+            }
+        },
