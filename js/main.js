@@ -111,3 +111,25 @@ new Vue({
             </div>
         </div>
 `,
+        mounted() {
+        this.loadTasks();
+    },
+    methods: {
+        getTasksByColumn(columnId) {
+            return this.tasks.filter(t => t.column === columnId);
+        },
+        canMoveForward(columnId) {
+            return ['planned', 'in-progress', 'testing'].includes(columnId);
+        },
+        canMoveBack(columnId) {
+            return columnId === 'testing';
+        },
+        formatDate(date) {
+            return new Date(date).toLocaleDateString('ru-RU');
+        },
+        formatDateTime(date) {
+            if (!date) return '';
+            return new Date(date).toLocaleString('ru-RU', {
+                day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
+            });
+        },
